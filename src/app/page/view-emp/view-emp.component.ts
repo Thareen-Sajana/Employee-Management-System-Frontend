@@ -84,18 +84,26 @@ export class ViewEmpComponent {
 
   public updateEmployee(){
 
-    this.http.patch(`http://localhost:8080/employee/update`,this.selectedEmp).subscribe(res => {
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500
-      });
+        this.http.patch(`http://localhost:8080/employee/update`,this.selectedEmp).subscribe(res => {
+          this.loadEmployeeTable();
+        })
 
-      this.loadEmployeeTable();
-    })
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+
   }
 
 }
