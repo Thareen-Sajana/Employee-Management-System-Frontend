@@ -1,0 +1,21 @@
+<h1 class="text-center mb-4 bg-black p-4 text-white fw-bolder">View All Employee</h1>
+
+<div class="container">
+    <table class="table border">
+        <tr class="border text-center">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Role</th>
+        </tr>
+
+        <tr *ngFor="let emp of empList" class="border text-center">
+            <td>{{emp.id}}</td>
+            <td>{{emp.firstName + " " + emp.lastName}}</td>
+            <td>{{emp.email}}</td>
+            <td>{{emp.departmentId}}</td>
+            <td>{{emp.roleId}}</td>
+        </tr>
+    </table>
+</div>
