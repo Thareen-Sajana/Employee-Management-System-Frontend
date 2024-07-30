@@ -1,18 +1,28 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormsModule, NgModel } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-emp',
   standalone: true,
-  imports: [HttpClientModule, NgFor],
+  imports: [HttpClientModule, NgFor,FormsModule],
   templateUrl: './view-emp.component.html',
   styleUrl: './view-emp.component.css'
 })
 export class ViewEmpComponent {
 
   public empList:any;
+
+  public selectedEmp = {
+    "id" : undefined,
+    "firstName" : undefined,
+    "lastName" : undefined,
+    "email" : undefined,
+    "departmentId" : "Select the Department",
+    "roleId": "Select the Role"
+  }
 
   constructor(private http:HttpClient){
     this.loadEmployeeTable();
@@ -48,7 +58,7 @@ export class ViewEmpComponent {
         this.http.delete(`http://localhost:8080/employee/delete/${employee.id}`,{responseType:'text'}).subscribe(res => {
           this.loadEmployeeTable();
         })
-        
+
         swalWithBootstrapButtons.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
@@ -66,6 +76,26 @@ export class ViewEmpComponent {
       }
     });
     
+  }
+
+  public updateBtnClick(employee:any){
+    this.selectedEmp = employee;
+  }
+
+  public updateEmployee(){
+
+    this.http.patch(`http://localhost:8080/employee/update`,this.selectedEmp).subscribe(res => {
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      this.loadEmployeeTable();
+    })
   }
 
 }

@@ -17,8 +17,8 @@ export class ManageEmpComponent {
     "firstName" : undefined,
     "lastName" : undefined,
     "email" : undefined,
-    "departmentId" : undefined,
-    "roleId": undefined
+    "departmentId" : "Select the Department",
+    "roleId": "Select the Role"
   }
 
   constructor(private http:HttpClient){}
